@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Edit Blog</title>
+</head>
+
+<!-- <script src="//cdn.ckeditor.com/4.4.5.1/full/ckeditor.js"></script> -->
+<script src="/JerseySample/js/angular.js"></script>
+<script src="/JerseySample/js/ckeditor/ckeditor.js"></script>
+<script src="../js/jquery1-11-1.min.js"></script>
+<script src="../css/bootstrap-3.2.0-dist/js/bootstrap.min.js"></script>
+
+<link href="../css/bootstrap-3.2.0-dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style type="text/css">
+	.submit{
+		padding-top:20px;
+	}
+	input{
+		padding-bottom:10px;
+	}
+</style>
+
+<body ng-app="cktest">
+	<div class="container">
+		<div class="row">
+	   		<nav class="navbar navbar-default" role="navigation">
+	      		<div class="col-md-11">
+				   	<div>
+				      	<ul class="nav nav-pills">
+						   <li class="active"><a href="#">Edit</a></li>
+						   <li><a href="#">View</a></li>
+						   <li><a href="#">Temp</a></li>
+						</ul>
+				   	</div>
+			   	</div>
+			   	<div class="col-md-1">
+			   		<div style="padding-top:6px">
+						<button class="btn">Login</button>
+					</div>
+				</div>  
+			</nav>
+	   	</div>
+		<div class="row">
+			<div class="col-md-10">
+				<div ng-controller="ExampleController">
+					<form>
+						<label for="name">Title</label>
+			      		<input type="text" class="form-control" id="name" placeholder="Pls input title">
+			      		<label for="name">Description</label>
+			      		<input type="text" class="form-control" id="name" placeholder="Pls input description of article">
+			      		
+				        <textarea name="editor1" id="editor1" rows="10" cols="80">
+				            This is my textarea to be replaced with CKEditor.
+				        </textarea>
+				        <script>
+				        	CKEDITOR.replace( 'editor1');
+				        </script>
+				    </form>
+				    <div class="submit">
+				    	<button type="button" class="btn btn-primary" data-toggle="button" ng-click="textSubmit()">Submit</button>
+				    </div>
+			    </div>
+		    </div>
+		    <div class="col-md-2">
+		   		<div class="panel panel-default">
+			   		<ol class="breadcrumb">
+					  <li><a href="#">Newest Comment</a></li>
+					</ol>
+					<ul>
+			         	<li><a href="#">Swing</a></li>
+			         	<li><a href="#">jMeter</a></li>
+			         	<li><a href="#">EJB</a></li>
+			         	<li class="divider"></li>
+			         	<li><a href="#">Spring</a></li>
+			      	</ul>
+				</div>
+		   	</div>
+	    </div>
+    </div>
+</body>
+<script type="text/javascript">
+	var contr = angular.module('cktest', []);
+	contr.controller('ExampleController', function($scope,$http) {
+		$scope.textSubmit = function(){
+			$scope.data = {};
+			$scope.data.content = "this ia test content";
+			$scope.data.type = "this is a test type";
+			$scope.data.title = "this is a test title";
+			$scope.data.description = "this is a test description";
+			$http.post("/JerseySample/rest/edit/process",$scope.data).success(function(data){
+				$scope.data = data;
+				alert(data);
+	  		});
+		};
+	});
+</script>
+</html>

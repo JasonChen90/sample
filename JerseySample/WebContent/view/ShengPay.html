@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<!-- saved from url=(0048)http://localhost:8080/RestDemo/angular/test.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style type="text/css">@charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>
+    <meta charset="utf-8">
+    <title>RestDemo</title>
+    <script src="/JerseySample/js/angular/angular.js"></script>
+    <script src="/JerseySample/js/jquery-1.10.2.js"></script>
+</head>
+<body>
+<div ng-app="textInputExample" class="ng-scope">
+	<form name="myForm" ng-controller="ExampleController" class="ng-pristine ng-valid ng-scope">
+		  <input type="button" ng-click="IssuePolicy()" value="IssuePolicy">
+		  <input type="button" ng-click="PayNotify()" value="PayNotify">
+		  <input type="button" ng-click="SearchPolicy()" value="SearchPolicy">
+		  <input type="button" ng-click="Reconcile()" value="Reconcile">
+		  <input type="button" ng-click="Reconcile2()" value="Reconcile2">
+		  <input type="button" ng-click="partnerInfoSync()" value="PartnerInfoSync">
+		  <input type="button" ng-click="timeoutsample()" value="TimeOutSample">
+		  <input type="button" ng-click="helloWorld()" value="HelloWorld">
+		  <input type="button" onclick="helloWorldAjax()" value="HelloWorldAjax">
+	 </form>
+</div>
+ 
+
+<script>
+	var contr = angular.module('textInputExample', [])
+	.config(['$httpProvider', function($httpProvider){
+		$httpProvider.defaults.timeout = 5000;
+	}]);
+	contr.controller('ExampleController', function($scope,$http) {
+		//$http.defaults.timeout = 5000;
+		var config = {
+				timeout: 5000
+		}
+    	$scope.order = {};
+    	$scope.IssuePolicy = function(){
+    		
+    		$scope.data = {};
+    		$scope.data.orderId = 1234;
+    		$scope.data.orderTime = '2016-01-01 09:32:30';
+    		$scope.data.skuCode = 'D1';
+    		$scope.data.units = 1;
+    		$scope.data.ipAddress = '211.5.21.25';
+    		$scope.data.policyHolder = {}
+    		$scope.data.policyHolder.fullName = '张三';
+    		$scope.data.policyHolder.idNo = '321281198904155832';
+    		$scope.data.policyHolder.mobile = '13501936793';
+    		$scope.data.policyHolder.email = 'test@test.com';
+    		$scope.data.policyHolder.addrProvince = '上海市';
+    		$scope.data.policyHolder.addrCity = '嘉定区';
+    		$http.post("/JerseySample/rest/orderService/issuePolicy",$scope.data).success(function(data){
+    			$scope.data = data;
+    			alert(data);
+      		});
+    	};
+    	$scope.PayNotify = function(){
+    		$scope.data = {};
+    		$scope.data.orderId = '123';
+   			$scope.data.payAmount = 5.26;
+			$scope.data.payTime = '2015-12-15 12:12:01';
+    		$scope.data.paymentId = 456;
+    		$scope.data.bankCode = '123456789';
+    		$scope.data.bankPaymentId = '987654321';
+    		$http.post("/JerseySample/rest/paymentService/payNotify",$scope.data).success(function(data){
+    			$scope.data = data;
+    			alert(data);
+      		});
+    	};
+    	$scope.SearchPolicy = function(){
+    		$scope.data = {};
+    		$scope.data.orderId = '1234';
+    		var headers = { 'Authorization': 'chenjian' };
+    		$http.post("/JerseySample/rest/orderService/searchPolicy",$scope.data,{ headers: headers}).success(function(data){
+    			$scope.data = data;
+    			alert(data);
+      		});
+    	};
+    	$scope.Reconcile = function(){
+    		$scope.data = {};
+    		$scope.data.orderId = 4444444;
+    		$http.post("/JerseySample/rest/paymentService/reconcile",$scope.data).success(function(data){
+    			$scope.data = data;
+    			alert(data);
+      		});
+    	};
+    	$scope.Reconcile2 = function(){
+    		$scope.data = {};
+    		$scope.data.orderId = 5555555;
+    		$http.post("/JerseySample/rest/paymentService/reconcile2",$scope.data).success(function(data){
+    			$scope.data = data;
+    			alert(data);
+      		});
+    	};
+    	$scope.partnerInfoSync = function(){
+    		$scope.data = {};
+    		$scope.data.body = "chenjian";
+    		$scope.data.sign = "fsffsef1231fswfwef";
+    		$http.post("/JerseySample/rest/infoSync/partnerSync",$scope.data).success(function(data){
+    			$scope.data = data;
+    			alert(data);
+      		});
+    	};
+    	$scope.timeoutsample = function(){
+    		$scope.data = {};
+    		$scope.data.orderId = '1234';
+    		//,{timeout:5000}
+    		$http.post("/JerseySample/rest/orderService/searchPolicy",$scope.data).success(function(data,config){
+    			$scope.data = data;
+    			alert(data);
+      		}).error(function(data,status,config){
+      			alert(status);
+      		});
+    	};
+    	
+    	$scope.helloWorld = function(){
+    		for(var i = 0; i < 1; i++){
+    			var url = "/JerseySample/HelloWorld.jsp?parms=" + i; 
+    			config.headers = { 'Authorization': 'chenjian' };
+    			$http.get(url).success(function(data,config){
+        			$scope.data = data;
+        			alert($.cookie());
+          		}).error(function(data,status,config){
+          			alert(status);
+          		});	
+    		}
+    	};
+    });
+</script>
+
+<script type="text/javascript">
+	function helloWorldAjax(){
+		for(var i = 0; i < 2; i++){
+			var url = "http://localhost:8080/JerseySample/HelloWorld.jsp";
+			var data = "parms=" + i;
+			$.ajax({
+				   type: "GET",
+				   url: url,
+				   data: data,
+				   success: function(msg){
+				     alert( "SUCCESS" );
+				   }
+				});
+		}
+	};
+</script>
+</body></html>

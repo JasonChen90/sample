@@ -37,17 +37,6 @@
     		
     		$scope.data = {};
     		$scope.data.orderId = 1234;
-    		$scope.data.orderTime = '2016-01-01 09:32:30';
-    		$scope.data.skuCode = 'D1';
-    		$scope.data.units = 1;
-    		$scope.data.ipAddress = '211.5.21.25';
-    		$scope.data.policyHolder = {}
-    		$scope.data.policyHolder.fullName = '张三';
-    		$scope.data.policyHolder.idNo = '321281198904155832';
-    		$scope.data.policyHolder.mobile = '13501936793';
-    		$scope.data.policyHolder.email = 'test@test.com';
-    		$scope.data.policyHolder.addrProvince = '上海市';
-    		$scope.data.policyHolder.addrCity = '嘉定区';
     		$http.post("/JerseySample/rest/orderService/issuePolicy",$scope.data).success(function(data){
     			$scope.data = data;
     			alert(data);
@@ -56,11 +45,6 @@
     	$scope.PayNotify = function(){
     		$scope.data = {};
     		$scope.data.orderId = '123';
-   			$scope.data.payAmount = 5.26;
-			$scope.data.payTime = '2015-12-15 12:12:01';
-    		$scope.data.paymentId = 456;
-    		$scope.data.bankCode = '123456789';
-    		$scope.data.bankPaymentId = '987654321';
     		$http.post("/JerseySample/rest/paymentService/payNotify",$scope.data).success(function(data){
     			$scope.data = data;
     			alert(data);

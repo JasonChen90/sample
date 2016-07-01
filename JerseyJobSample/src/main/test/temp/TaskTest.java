@@ -21,4 +21,14 @@ public class TaskTest {
 		 payment.setPayTime("2015-12-15 08:00:00");
 		 //job.processPayment(payment);
 	}
+	
+	@Test
+	public void Test2(){
+		int temp[] = {};
+		
+		for (int str : temp) {
+			String tt = String.format("%012d", str);
+			System.out.println(tt);
+		}
+	}
 }

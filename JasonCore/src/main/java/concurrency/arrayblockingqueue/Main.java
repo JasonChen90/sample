@@ -6,6 +6,10 @@ import org.junit.Test;
 
 public class Main {
 
+	/*
+	 * ArrayBlockingQueue是由数组实现的队列
+	 * put和take是FIFO规则
+	 */
 	@Test
 	public void testArrayBlockingQueue(){
 		try {
